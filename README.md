@@ -1,5 +1,101 @@
-🧠 AI Invoice Fraud Detection Agent OpenEnv-style AI Agent for automated invoice processing and fraud detection in finance workflows. This project simulates a real-world intelligent agent that reads unstructured/raw invoice text, extracts key fields, applies fraud detection rules, and makes autonomous decisions to Approve or Flag invoices. It demonstrates modern agentic AI concepts: step-by-step reasoning, modular actions, reward-based evaluation, and synthetic data generation — all without needing external APIs. Perfect for learning AI agents, reinforcement learning-style environments, or building finance automation tools.                                                                                                                                                                                                                    
-🌟 Highlights Fully synthetic dataset generation (no manual data required) Clear OpenEnv-style environment with observation-action-reward loop Modular agent with transparent step-by-step reasoning Reward system (max 1.0 per task) for proper extraction, fraud detection & decision Beautiful interactive Streamlit web demo Handles noisy and unstructured invoice text Lightweight, fully offline, and easy to extend Great baseline for real-world Accounts Payable (AP) automation                                                                                                                                                                               
-📁 Project Structure & File Explanation File Purpose baseline.py Runs the complete experiment: generates 100 synthetic tasks, creates the environment, lets the agent process every invoice, and prints the final evaluation score (total reward and success rate). Best for benchmarking. tasks.py Generates synthetic invoices using Faker. Creates realistic invoice text with random vendors, amounts, and dates. Also injects controlled fraud cases (high amount, unknown vendors) along with ground truth labels. Shows how to create scalable training/evaluation data. env.py Implements an OpenEnv-style simulator (inspired by Gym/OpenAI environments). Manages task progression, provides observations to the agent, receives actions, calculates per-step rewards, and tracks overall performance. agent.py Core intelligence — the InvoiceAgent class. Performs three key actions: field extraction (using regex), fraud checking (rule-based), and final decision making. Easy to upgrade (e.g., replace regex with LLM). predict.py Quick testing script. Allows you to run the agent on single or custom invoices and see detailed output in the terminal. Useful for development and debugging. app.py Streamlit-based web interface. Users can paste any invoice text and instantly see extracted fields, fraud analysis, reasoning, and the final decision in a clean UI. requirements.txt Lists all Python dependencies (faker for data generation and streamlit for the web app). README.md This documentation file.                                                                                                                                                                                                              
-🎯 How It Works (Workflow) The agent follows a clear multi-step reasoning process: Observation — Receives raw invoice text from the environment. Extraction — Parses Invoice ID, Vendor, and Amount using regex. Fraud Check — Applies intelligent rules: Amount > ₹1,00,000 → High-risk Vendor is unknown/suspicious (e.g., UnknownCorp, ShadySupplies) Decision — Outputs approve or flag. Reward — Environment evaluates the action: Correct extraction: +0.2 Correct fraud detection: +0.3 Correct final decision: +0.5 Wrong decision: -0.5 Maximum score per invoice = 1.0 This structure makes the agent transparent, debuggable, and extensible.                                                                                                                                                                                                          
-🚀 Quick Start Prerequisites Python 3.8 or higher 1. Clone the repository (or download the files) 2. Install dependencies pip install -r requirements.txt 3. Run the project in different ways A. Full Evaluation & Scoring Bashpython baseline.py B. Quick Prediction on Custom Invoices Bashpython predict.py C. Interactive Web Demo (Recommended) Bashstreamlit run app.py 🧪 Example Outputs Normal Invoice textInvoice ID: INV8923 | Vendor: Amazon | Amount: 12500 → ✅ APPROVED Fraud Cases High amount (₹245,000) → 🚩 FLAGGED (High amount) Suspicious vendor (ShadySupplies) → 🚩 FLAGGED (Unknown vendor) 🛠️ Technologies Used Python 3 Faker — Synthetic realistic data generation Streamlit — Fast and beautiful web UI Regex-based parsing (easily replaceable with LLMs) Rule-based reasoning (hybrid agent design) OpenEnv-style architecture for agent-environment interaction
+README
+🛡️ InvoiceGuard AI: Fraud Detection Agent
+An OpenEnv-compatible intelligent agent system designed for automated accounts payable processing and invoice fraud detection.
+
+Status Platform UI License
+
+🌌 Overview
+InvoiceGuard AI is a lightweight, fully offline intelligent agent system built to parse raw/OCR-scanned invoice text, extract critical fields, perform multi-criteria fraud analysis, and make decisions to either Approve or Flag invoices.
+
+Using an OpenEnv-style simulator interface (inspired by OpenAI Gym), this project demonstrates core Agentic AI patterns:
+
+Observation-Action-Reward Loop: A formal environment evaluates agent actions and issues granular rewards.
+Deterministic & Rule-Based Heuristics: Highly testable parsing and detection baselines.
+Synthetic Dataset Generation: Integrated Faker generators simulating hundreds of diverse invoice layouts (normal vs. fraudulent).
+🛠️ Technology Stack
+Language: Python 3.8+
+Interface: Streamlit (with Plotly Express charts & Pandas tables)
+Data Processing: SQLite3 (local historical database log), Regex Engine
+Mocking Utility: Faker library (generates custom names, dates, companies)
+Design/CSS: Dark Theme Web UI with status cards and download utilities
+📂 Project Directory Structure
+File	Purpose
+agent.py	Contains the InvoiceAgent class: parses values (regex), analyzes fraud indicators, and returns actions.
+env.py	Implements InvoiceEnv, an OpenEnv environment that tracks step state and assigns rewards.
+tasks.py	Utility to generate clean & fraudulent synthetic invoice tasks.
+streamlit_app .py	Fully featured interactive dashboard with charts, evaluation loops, and custom inputs.
+baseline.py	Command line script executing evaluation across 100 sample tasks.
+predict.py	Command line prediction script running the agent on individual test inputs.
+data_generator.py	Supporting dataset utility.
+grader.py	Automated grader checking task execution metrics.
+invoices.db	Local SQLite database recording system histories.
+🎯 Agentic Workflow & Reward Matrix
+The agent processes incoming data through a formal execution pipeline:
+
+
+Reward Criteria (Max 1.0 Point per Invoice)
+Field Extraction Accuracy: +0.2 if extracted IDs, vendors, and amounts match ground truth.
+Fraud Detection Match: +0.3 if fraud labels are correctly flagged.
+Decision Match: +0.5 if the final action matches the target decision; -0.5 penalty if it differs.
+⚡ Quick Start
+⚙️ Installation
+Ensure you have Python 3.8+ installed, then install dependencies:
+
+pip install -r requirements.txt
+🏃 Running the Application
+A. Interactive Streamlit Web Interface (Recommended)
+Launch the comprehensive analytics portal:
+
+streamlit run "streamlit_app .py"
+The interface allows you to:
+
+Test the agent dynamically on raw text inputs or file uploads.
+Trigger 100-sample synthetic batch generation.
+Execute full training evaluations and review accuracy/F1 performance plots.
+View history logs and download data as CSV.
+B. Command Line Benchmark Evaluation
+Evaluate the agent's baseline accuracy over 100 tasks:
+
+python baseline.py
+C. Command Line Single Prediction
+Test local prediction metrics:
+
+python predict.py
+📄 License
+Distributed under the MIT License. See LICENSE for more details.
+
+Releases
+No releases published
+Create a new release
+Packages
+No packages published
+Publish your first package
+Contributors
+2
+ (2)
+@sunayanapadhy12-lab
+sunayanapadhy12-labSunayana padhy
+@sahu0247
+sahu0247subham sahu
+Languages
+Python
+99%
+Dockerfile
+1%
+Suggested workflows
+Based on your tech stack
+
+Publish Python Package logo
+Publish Python Package
+Publish a Python Package to PyPI on release.
+By GitHub Actions
+Pylint logo
+Pylint
+Lint a Python application with pylint.
+By GitHub Actions
+Python package logo
+Python package
+Create and test a Python package on multiple Python versions.
+By GitHub Actions
+More workflows
+
